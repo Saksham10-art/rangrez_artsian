@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Artisan’s Ledger – Transparent Pricing. Empowered Karigars.</title>
+  <link rel="stylesheet" href="style.css" />
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">Rangrez رنگنے والے</div>
+      <ul class="nav-menu" id="navMenu">
+
+        <li class="nav-item"><a href="artisan.html" class="nav-link">Artisan</a></li>
+        <li class="nav-item"><a href="buyer.html" class="nav-link">Buyer</a></li>
+        <li class="nav-item"><a href="admin.html" class="nav-link">Admin</a></li>
+        <li class="nav-item dropdown">
+          <button class="lang-btn">English</button>
+          <ul class="dropdown-menu">
+            <li><a href="#" data-lang="en">English</a></li>
+            <li><a href="#" data-lang="hi">Hindi</a></li>
+            <li><a href="#" data-lang="ur">Urdu</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="nav-buttons" id="authButtons">
+  <button class="btn btn-outline" onclick="openRegister()">Register</button>
+  <button class="btn btn-primary" onclick="openLogin()">Login</button>
+</div>
+
+<div class="nav-user" id="navUser" style="display:none;">
+  <span id="welcomeUser"></span>
+  <button class="btn btn-outline" onclick="logout()">Logout</button>
+</div>
+  <!-- AUTH MODAL -->
+<!-- AUTH MODAL -->
+<div id="authModal" class="auth-modal">
+  <div class="auth-box">
+
+    <span class="close-btn" onclick="closeAuth()">&times;</span>
+
+    <h2 id="authTitle" style="margin-bottom: 1rem;">Login</h2>
+
+    <div id="authMessage" class="auth-message"></div>
+
+    <input type="text" id="authName" placeholder="Full Name">
+    
+    <input type="email" id="authEmail" placeholder="Email">
+    <input type="password" id="authPassword" placeholder="Password">
+
+    <button class="btn btn-primary" onclick="submitAuth()" id="authSubmit" style="width: 100%; margin-top: 10px;">
+      Login
+    </button>
+
+    <p id="toggleText" style="margin-top: 15px; font-size: 0.9rem;">
+      Don’t have an account?
+      <span onclick="toggleAuth()" style="color:#c47a2c; cursor:pointer; font-weight:600;">
+        Register
+      </span>
+    </p>
+
+  </div>
+</div>
+
+
+      <!-- Hamburger Button -->
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+ <section class="hero">
+
+  <div class="hero-banner">
+    <img src="images/rangrezBanner.jpg.png" alt="Lucknow Chikankari">
+  </div>
+
+  <div class="hero-content">
+    <h1 class="hero-title" data-key="heroTitle">
+      Transparent Pricing. <br> Empowered Karigars.
+    </h1>
+
+    <p class="hero-text" data-key="heroText">
+      Rangrez (Artisan’s Ledger) connects Lucknow’s Chikankari artisans directly with buyers,
+      ensuring fair wages, transparent pricing, and stories woven into every stitch.
+    </p>
+
+    <div class="hero-cta">
+     <a href="artisan.html" class="btn-primary">Join as Artisan</a>
+<a href="buyer.html" class="btn-secondary">Explore as Buyer</a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+  <!-- Story Section -->
+  <section id="story" class="section story">
+    <div class="container">
+      <div class="story-wrapper">
+        <div class="story-img fade-in">
+          <img src="images/story.jpg" alt="Chikankari artisan in Lucknow" />
+        </div>
+        <div class="story-text fade-in">
+          <h2 data-key="storyTitle">The Hands Behind the Thread</h2>
+
+          <p data-key="storyText1">
+           Two women artisans are carefully hand-embroidering fabric in a quiet workspace. They are working on delicate white cloth, stitching intricate patterns with needle and thread. One artisan is threading her needle while the other concentrates deeply on her embroidery work.
+
+
+          </p>
+          <p data-key="storyText2">
+            The fabric features fine, detailed handwork, reflecting traditional craftsmanship and patience. The simple background keeps the focus entirely on their skill, dedication, and the artistry of handmade embroidery.
+
+Their expressions show focus and calm determination, capturing the essence of slow, meaningful, and authentic craftsmanship. 
+          </p>
+        </div>
+      </div>
+      <div class="floral-divider"></div>
+    </div>
+  </section>
+
+  <!-- Fair Price Section -->
+  <section class="section fair-price">
+    <div class="container">
+      <h2 class="section-title" data-key="fairTitle">Fair Price Discovery Engine</h2>
+      <p class="section-subtitle " data-key="fairSubtitle">
+        See how we calculate a fair price for every Chikankari piece.
+      </p>
+
+      <div class="calc-grid">
+        <div class="calc-input">
+          <label>Raw Material Cost (₹)</label>
+          <input type="number" id="rawCost" value="800" />
+        </div>
+        <div class="calc-input">
+          <label>Labor Hours</label>
+          <input type="number" id="laborHours" value="12" />
+        </div>
+        <div class="calc-input">
+          <label>Demand Index (1–5)</label>
+          <input type="number" id="demandIndex" value="3" min="1" max="5" />
+        </div>
+        <div class="calc-result">
+          <h3>Suggested Price</h3>
+          <div class="price-box" id="suggestedPrice">₹1,920</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Section -->
+  <section id="impact" class="section impact">
+    <div class="container">
+      <h2 class="section-title" data-key="impactTitle">Our Impact in Lucknow</h2>
+      <div class="stats-grid">
+        <div class="stat-card fade-in">
+          <div class="stat-icon">🪡</div>
+          <div class="stat-number">1,247</div>
+          <div class="stat-label" data-key="artisans">Artisans Empowered</div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="stat-icon">🤝</div>
+          <div class="stat-number">8,932</div>
+          <div class="stat-label" data-key="trades">Fair Trades Enabled</div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="stat-icon">✅</div>
+          <div class="stat-number">2,104</div>
+          <div class="stat-label" data-key="listings">Verified Craft Listings</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trending Designs -->
+  <section class="section trending">
+    <div class="container">
+      <h2 class="section-title" data-key="trendingTitle">Trending Chikankari Designs</h2>
+      <div class="design-grid">
+        <div class="design-card fade-in">
+          <img src="images/floralkurta.jpg" alt="Chikankari kurta" />
+          <div class="design-overlay">
+            <h3>Floral Kurta</h3>
+            <p>by Razia Bibi</p>
+            <p class="price">₹2,400</p>
+          </div>
+        </div>
+        <div class="design-card fade-in">
+          <img src="images/peonydupatta.jpg" alt="Chikankari dupatta" />
+          <div class="design-overlay">
+            <h3>Peony Dupatta</h3>
+            <p>by Shabnam Khan</p>
+            <p class="price">₹1,800</p>
+          </div>
+        </div>
+        <div class="design-card fade-in">
+          <img src="images/awadhisaree.jpg" alt="Chikankari saree" />
+          <div class="design-overlay">
+            <h3>Awadhi Saree</h3>
+            <p>by Nargis Begum</p>
+            <p class="price">₹4,500</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lucknow Touch -->
+  <section class="section lucknow-touch">
+    <div class="container">
+      <h3 class="lucknow-title" data-key="lucknowTitle">A Touch of Lucknow</h3>
+      <p class="lucknow-text" data-key="lucknowText">
+       Lucknow is not just a city — it is an emotion woven in white threads.
+
+Here, craftsmanship is slow, intentional, and soulful. Every stitch reflects hours of dedication. Every pattern holds a fragment of history. Artisan’s Ledger exists to preserve this grace while empowering the hands that keep it alive.
+
+Because heritage deserves dignity.
+And artisans deserve fairness.
+      </p>
+      <div class="arch-silhouette"></div>
+      <blockquote class="lucknow-quote">
+        “Crafted with tehzeeb and tradition.”
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>About Rangrez</h4>
+        <p data-key="footerAbout">
+          A transparent marketplace connecting Lucknow’s Chikankari artisans with conscious buyers across the world.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#hero">Artisan</a></li>
+          <li><a href="#story">Buyer</a></li>
+          <li><a href="#impact">Admin</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Info</h4>
+        <p>📍 Lucknow, Uttar Pradesh, India</p>
+        <p>✉️ hello@artisansledger.com</p>
+        <p>📞 +91 98765 43210</p>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="Twitter">TW</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom" data-key="madeWith">
+      <p>Made with ❤️ in Lucknow</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Dashboard - Rangrez – Artisan's Ledger</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ============= BASE DESIGN SYSTEM ============= */
+        :root {
+            --ivory: #fdf7f2;
+            --cream: #f9f2eb;
+            --peach: #f7d5c0;
+            --gold: #d4af37;
+            --gold-light: #e8d5a3;
+            --text-dark: #222;
+            --text-muted: #666;
+            --shadow: 0 8px 32px rgba(0,0,0,0.08);
+            --shadow-hover: 0 20px 60px rgba(212,175,55,0.25);
+            --border-radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background: linear-gradient(180deg, var(--ivory) 0%, var(--cream) 100%);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ============= NAVBAR (EXACT HOMEPAGE) ============= */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(223, 206, 154, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg,#1a140a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Language Dropdown */
+       .lang-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--text-dark);
+  cursor: pointer;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.lang-btn:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  box-shadow: var(--shadow);
+  border-radius: var(--border-radius);
+  list-style: none;
+  padding: 0.5rem 0;
+  min-width: 120px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: var(--transition);
+  z-index: 1001;
+}
+
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: var(--text-dark);
+  font-size: 0.9rem;
+}
+
+.dropdown-menu li a:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 0.8rem;
+}
+
+/* ============= Buttons ============= */
+.btn {
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+}
+
+.btn-primary {
+  background-color: #82660e;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #c19d2f;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background-color: #82660e;;
+  color: #fff;
+  border: 1px solid #ccc;
+}
+
+.btn-outline:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+        /* Buyer Menu Sidebar */
+        .buyer-sidebar {
+            position: fixed;
+            left: -320px;
+            top: 0;
+            height: 100vh;
+            width: 320px;
+            background: white;
+            box-shadow: 4px 0 40px rgba(0,0,0,0.1);
+            transition: left 0.4s ease;
+            z-index: 999;
+            padding: 2rem;
+        }
+
+        .buyer-sidebar.active {
+            left: 0;
+        }
+
+        .buyer-menu {
+            list-style: none;
+        }
+
+        .buyer-menu-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .buyer-menu-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .buyer-menu-link:hover {
+            background: var(--cream);
+            color: var(--gold);
+            transform: translateX(8px);
+        }
+
+        .buyer-menu-icon {
+            font-size: 1.2rem;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background: var(--text-dark);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* ============= BUTTONS ============= */
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), #b8942f);
+            color: white;
+            box-shadow: 0 8px 25px rgba(212,175,55,0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold-light);
+        }
+
+        /* ============= MAIN SECTIONS ============= */
+        .section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-dark), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+ /* Grid container for products */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;           /* space between cards */
+  padding: 1rem;
+}
+
+/* Product card styling */
+.product-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Hover effect */
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+/* Product image */
+.product-image {
+  width: 100%;       /* full width of card */
+  height: 180px;     /* fixed height */
+  object-fit: cover; /* maintain aspect ratio */
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+}
+
+/* Product name */
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+/* Product price */
+.product-price {
+  color: #555;
+  margin-bottom: 0.2rem;
+}
+
+/* Suggested price */
+.suggested-price {
+  color: #e91e63; /* pink / highlight */
+  font-weight: bold;
+}
+
+/* Responsive tweaks for small screens */
+@media (max-width: 600px) {
+  .product-image {
+    height: 150px;
+  }
+  .product-card {
+    padding: 0.8rem;
+  }
+}
+
+        .artisan-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--gold);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .product-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-artisan {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .prices {
+            display: flex;
+            gap: 1rem;
+            align-items: baseline;
+            margin-bottom: 1.5rem;
+        }
+
+        .base-price {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .fair-price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        /* ============= FILTERS ============= */
+        .filters {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        /* ============= CUSTOM DESIGNER ============= */
+        .custom-designer {
+            background: linear-gradient(135deg, white 0%, var(--cream) 100%);
+            border-radius: var(--border-radius);
+            padding: 4rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .designer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .designer-option {
+            padding: 2rem;
+            border: 2px solid #f0f0f0;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .designer-option:hover,
+        .designer-option.active {
+            border-color: var(--gold);
+            box-shadow: var(--shadow);
+            transform: translateY(-5px);
+        }
+
+        .designer-option input[type="radio"] {
+            display: none;
+        }
+
+        .designer-preview {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .preview-area {
+            background: white;
+            height: 300px;
+            border-radius: var(--border-radius);
+            margin: 2rem auto 0;
+            max-width: 400px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ============= RESPONSIVE ============= */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .buyer-sidebar {
+                left: -100%;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 2rem;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -5px);
+        }
+
+        /* Overlay for mobile sidebar */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            z-index: 998;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .coming-soon-popup {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #222;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 9999;
+    font-size: 14px;
+}
+
+.coming-soon-popup.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+    </style>
+</head>
+<body>
+    <!-- Navbar (EXACT homepage copy) -->
+    <nav class="navbar">
+        <div class="nav-container container">
+             <div class="nav-logo">Rangrez رنگنے والے</div>
+            <ul class="nav-menu" id="mainNav">
+                <li class="nav-item">
+  <a href="index.html" class="nav-link active" data-key="home">Home</a>
+</li>
+
+<li class="nav-item">
+  <a href="artisan.html" class="nav-link" data-key="artisan">Artisan</a>
+</li>
+
+<li class="nav-item">
+  <a href="#featured" class="nav-link" data-key="shop">Shop</a>
+</li>
+
+<li class="nav-item">
+  <a href="#orders" class="nav-link" data-key="orders">Orders</a>
+</li>
+
+                <li class="nav-item dropdown">
+                    <button class="lang-btn">English</button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" data-lang="en">English</a></li>
+                        <li><a href="#" data-lang="hi">हिंदी</a></li>
+                        <li><a href="#" data-lang="ur">اردو</a></li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <!-- Buyer Menu Toggle (Mobile Hamburger) -->
+            <div class="hamburger" id="buyerHamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Buyer Dashboard Sidebar Menu -->
+    <div class="buyer-sidebar" id="buyerSidebar">
+        <h3 style="margin-bottom: 2rem; color: var(--text-dark);">Buyer Menu</h3>
+        <ul class="buyer-menu">
+            <li class="buyer-menu-item">
+                <a href="#home" class="buyer-menu-link" ">
+                    <span  data-key="home" class="buyer-menu-icon" ></span>
+                    Home
+                </a>
+            </li>
+            <li class="buyer-menu-item">
+                <a href="#featured" class="buyer-menu-link">
+                    <span class="buyer-menu-icon" data-key="featuredTitle"></span>
+                    Featured Products
+                </a>
+            </li>
+            <li class="buyer-menu-item">
+                <a href="#trending" class="buyer-menu-link">
+                    <span class="buyer-menu-icon" data-key="trendingDesigns"></span>
+                    Trending Designs
+                </a>
+            </li>
+            <li class="buyer-menu-item">
+                <a href="#browse" class="buyer-menu-link">
+                    <span class="buyer-menu-icon" data-key="browseProducts"></span>
+                    Browse Products
+                </a>
+            </li>
+            <li class="buyer-menu-item">
+                <a href="#orders" class="buyer-menu-link">
+                    <span class="buyer-menu-icon" data-key="myOrders"></span>
+                    My Orders
+                </a>
+            </li>
+            <li class="buyer-menu-item">
+                <a href="#artisans" class="buyer-menu-link">
+                    <span class="buyer-menu-icon" data-key="verifiedArtisans"></span>
+                    Verified Artisans
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Featured Products -->
+    <section id="featured" class="section">
+        <div class="container">
+            <h1 class="section-title" data-key="featuredTitle">Featured Products</h1>
+
+            <p class="section-subtitle" data-key="featuredSub">Handcrafted Chikankari masterpieces from Lucknow's finest artisans</p>
+            <div class="products-grid">
+                <div class="product-card" data-icon="🌸">
+                    <div class="artisan-badge">Verified</div>
+                    <img src="images/kurta.jpeg" alt="Floral Kurta" class="product-image">
+                      
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name" data-key="floralKurta">
+                          
+                          Floral Kurta</h3>
+                        <div class="product-artisan">by Razia Bibi • Lucknow</div>
+                        <div class="prices">
+                            <span class="base-price">₹3,200</span>
+                            <span class="fair-price">₹2,400</span>
+                        </div>
+                        <a href="#"  id="addToCartBtn" class="btn btn-primary" data-key="addCart">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="product-card" data-icon="🌺">
+                    <div class="artisan-badge">Verified</div>
+                      <img src="images/dupatta.jpeg" alt="dupatta" class="product-image">
+                      
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name"  data-key="peonyDupatta">Peony Dupatta</h3>
+                        <div class="product-artisan">by Shabnam Khan • Lucknow</div>
+                        <div class="prices">
+                            <span class="base-price">₹2,500</span>
+                            <span class="fair-price">₹1,800</span>
+                        </div>
+                        <a href="#"  id="addToCartBtn" class="btn btn-primary" data-key="addCart">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="product-card" data-icon="👗">
+                    <div class="artisan-badge">Verified</div>
+          
+                    <img src="images/saree.jpeg" alt="saree" class="product-image">
+                      
+                    <div class="product-info">
+                        <h3 class="product-name" data-key="awadhiSaree">Awadhi Saree</h3>
+                        <div class="product-artisan">by Nargis Begum • Lucknow</div>
+                        <div class="prices">
+                            <span class="base-price">₹6,000</span>
+                            <span class="fair-price">₹4,500</span>
+                        </div>
+                        <a href="#"  id="addToCartBtn" class="btn btn-primary" data-key="addCart">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="product-card" data-icon="🌼">
+                    <div class="artisan-badge">Verified</div>
+              
+                     <img src="images/jasmineSet.jpeg" alt="set" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name" data-key="jasmineSet">Jasmine Set</h3>
+                        <div class="product-artisan">by Fatima R. • Lucknow</div>
+                        <div class="prices">
+                            <span class="base-price">₹4,200</span>
+                            <span class="fair-price">₹3,200</span>
+                        </div>
+                        <a href="#"   id="addToCartBtn"class="btn btn-primary" data-key="addCart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Browse Products with Filters -->
+    <section id="browse" class="section">
+        <div class="container">
+            <h2 class="section-title" data-key="browseProducts">Browse Products</h2>
+            <div class="filters">
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label>Price Range</label>
+                        <select>
+                            <option>All Prices</option>
+                            <option>Under ₹1,000</option>
+                            <option>₹1,000 - ₹3,000</option>
+                            <option>₹3,000 - ₹5,000</option>
+                            <option>Over ₹5,000</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Design Style</label>
+                        <select>
+                            <option>All Designs</option>
+                            <option>Floral</option>
+                            <option>Geometric</option>
+                            <option>Traditional</option>
+                            <option>Modern</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Artisan Location</label>
+                        <select>
+                            <option>All Lucknow</option>
+                            <option>Chowk</option>
+                            <option>Aminabad</option>
+                            <option>Hazratganj</option>
+                            <option>Nakas</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Sort By</label>
+                        <select>
+                            <option>Featured</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                            <option>Newest</option>
+                            <option>Best Selling</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="products-grid">
+                <!-- Same product cards as featured -->
+                <div class="product-card" data-icon="🌸">
+                    <div class="artisan-badge">Verified</div>
+                    
+                    <img src="images/kurta.jpeg" alt="Floral Kurta" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Floral Kurta</h3>
+                        <div class="product-artisan">by Razia Bibi • Lucknow</div>
+                        <div class="prices">
+                            <span class="base-price">₹3,200</span>
+                            <span class="fair-price">₹2,400</span>
+                        </div>
+                        <a href="#"  id="addToCartBtn"class="btn btn-primary" data-key="addCart">Add to Cart</a>
+                    </div>
+                </div>
+                <!-- Repeat for more products -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Designer Section -->
+    <section class="section">
+        <div class="container">
+           <h2 class="section-title" data-key="dreamDesign">
+  Create Your Dream Design
+</h2>
+
+<p class="section-subtitle" data-key="customSubtitle">
+  Work with master artisans to craft your perfect Chikankari piece
+</p>
+
+            <div class="custom-designer">
+                <div class="designer-grid">
+                    <label class="designer-option">
+                        <input type="radio" name="fabric" value="cotton" checked>
+                        <div class="designer-preview">
+                          <img src="images/cotton.jpeg" alt="Floral Kurta" class="product-image">
+                        </div>
+                        <div>Cotton Mul</div>
+                    </label>
+                    <label class="designer-option">
+                        <input type="radio" name="fabric" value="silk">
+                        <div class="designer-preview"><img src="images/silk.jpeg" alt="Floral Kurta" class="product-image"></div>
+                        <div>Silk Blend</div>
+                    </label>
+                    <label class="designer-option">
+                        <input type="radio" name="color" value="white">
+                        <div class="designer-preview"><img src="images/white.jpeg" alt="Floral Kurta" class="product-image"></div>
+                        <div>Pure White</div>
+                    </label>
+                    <label class="designer-option">
+                        <input type="radio" name="color" value="ivory">
+                        <div class="designer-preview"><img src="images/ivory.jpeg" alt="Floral Kurta" class="product-image"></div>
+                        <div>Ivory</div>
+                    </label>
+                    <label class="designer-option">
+                        <input type="radio" name="embroidery" value="medium">
+                        <div class="designer-preview"><img src="images/medium.jpeg" alt="Floral Kurta" class="product-image"></div>
+                        <div>Medium</div>
+                    </label>
+                    <label class="designer-option">
+                        <input type="radio" name="embroidery" value="heavy">
+                        <div class="designer-preview"><img src="images/heavy.jpeg" alt="Floral Kurta" class="product-image"></div>
+                        <div>Heavy</div>
+                    </label>
+                </div>
+                
+                <div class="preview-area">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem;"><img src="images/custom.jpeg" alt="Floral Kurta" class="product-image"></div>
+                </div>
+                
+                <div style="margin-top: 3rem;">
+                    <a href="#" id="startCustomBtn" class="btn btn-primary" data-key="startCustom"style="font-size: 1.2rem; padding: 1.2rem 3rem;">Start Custom Order →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- My Orders Section -->
+    <section id="orders" class="section">
+        <div class="container">
+            <h2 class="section-title" data-key="myOrders">My Orders</h2>
+            <div class="products-grid">
+                <div style="background: white; border-radius: var(--border-radius); padding: 2.5rem; box-shadow: var(--shadow);">
+                    <h3 style="margin-bottom: 1rem;">#ORD-1247 • Floral Kurta</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">Razia Bibi • Delivered</p>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <span style="color: var(--gold); font-weight: 700;">₹2,400</span>
+                        <a href="#" class="btn btn-primary btn-small">Track Order</a>
+                    </div>
+                </div>
+                <!-- More order cards -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (EXACT homepage copy) -->
+    <footer style="background: linear-gradient(180deg, #2a1f14 0%, #1a140a 100%); color: white; padding: 4rem 0 2rem; margin-top: 5rem;">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                <div>
+                    <h4 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Rangrez</h4>
+                    <p style="color: #ccc; line-height: 1.7;">Authentic Chikankari from Lucknow's master artisans. Transparent pricing that honors true craftsmanship.</p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 1.5rem;" data-key="quickLinks">Quick Links</h4>
+                    <ul style="list-style: none;">
+                        <li style="margin-bottom: 0.8rem;"><a href="#" style="color: #ccc; text-decoration: none; transition: color 0.3s;">Home</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="#" style="color: #ccc; text-decoration: none;">Shop</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="#" style="color: #ccc; text-decoration: none;">Artisans</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="#" style="color: #ccc; text-decoration: none;">About</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 1.5rem;" data-key="support">Support</h4>
+                    <p style="color: #ccc; margin-bottom: 0.5rem;">📍 Lucknow, Uttar Pradesh</p>
+                    <p style="color: #ccc; margin-bottom: 0.5rem;">✉️ hello@rangrez.in</p>
+                    <p style="color: #ccc;">📞 +91 98765 43210</p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 1.5rem;"data-key="connect">Connect</h4>
+                    <div style="display: flex; gap: 1.5rem; justify-content: flex-start;">
+                        <a href="#" style="color: #ccc; font-size: 1.8rem; transition: all 0.3s;" aria-label="Instagram">📷</a>
+                        <a href="#" style="color: #ccc; font-size: 1.8rem; transition: all 0.3s;" aria-label="Facebook">📘</a>
+                        <a href="#" style="color: #ccc; font-size: 1.8rem; transition: all 0.3s;" aria-label="Twitter">🐦</a>
+                    </div>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; color: #999; text-align: center;">
+                <p>© 2026 Rangrez – Artisan's Ledger. Made with ❤️ in Lucknow</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Buyer Sidebar Toggle (Mobile Hamburger)
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('buyerHamburger');
+            const sidebar = document.getElementById('buyerSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const buyerLinks = document.querySelectorAll('.buyer-menu-link');
+             // Coming Soon Feature
+const addToCartBtn = document.getElementById("addToCartBtn");
+const startCustomBtn = document.getElementById("startCustomBtn");
+
+function showComingSoon(message) {
+    const popup = document.createElement("div");
+    popup.className = "coming-soon-popup";
+    popup.innerText = message;
+
+    document.body.appendChild(popup);
+
+    setTimeout(() => {
+        popup.classList.add("show");
+    }, 100);
+
+    setTimeout(() => {
+        popup.classList.remove("show");
+        setTimeout(() => popup.remove(), 300);
+    }, 2000);
+}
+
+if (addToCartBtn) {
+    addToCartBtn.addEventListener("click", () => {
+        showComingSoon("🛒 Add to Cart - Coming Soon");
+    });
+}
+
+if (startCustomBtn) {
+    startCustomBtn.addEventListener("click", () => {
+        showComingSoon("✨ Custom Design Feature - Coming Soon");
+    });
+}
+
+
+            hamburger.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
+
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+
+            // Close sidebar when menu item clicked
+            buyerLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    hamburger.classList.remove('active');
+                });
+            });
+
+
+           
+
+            // Custom Designer Interactivity
+            document.querySelectorAll('.designer-option input').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    document.querySelectorAll('.designer-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    e.target.parentElement.classList.add('active');
+                });
+            });
+        });
+
+        // Smooth scrolling for buyer menu links
+        document.querySelectorAll('.buyer-menu-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+
+
+        // 🌍 Language Translations
+const translations = {
+  en: {
+    customSubtitle: "Work with master artisans to craft your perfect Chikankari piece",
+
+    home: "Home",
+    artisan: "Artisan",
+    shop: "Shop",
+    orders: "Orders",
+    featuredTitle: "Featured Products",
+    featuredSub: "Handcrafted Chikankari masterpieces from Lucknow's finest artisans",
+    browseProducts: "Browse Products",
+    dreamDesign: "Create Your Dream Design",
+    myOrders: "My Orders",
+    trendingDesigns: "Trending Designs",
+    verifiedArtisans: "Verified Artisans",
+    addCart: "Add to Cart",
+    startCustom: "Start Custom Order →",
+
+    floralKurta: "Floral Kurta",
+    peonyDupatta: "Peony Dupatta",
+    awadhiSaree: "Awadhi Saree",
+    jasmineSet: "Jasmine Set",
+
+    quickLinks: "Quick Links",
+    support: "Support",
+    connect: "Connect"
+    
+  },
+
+  hi: {
+    
+  customSubtitle: "मास्टर कारीगरों के साथ मिलकर अपनी परफेक्ट चिकनकारी तैयार करें"
+,
+
+    home: "होम",
+    artisan: "कारीगर",
+    shop: "दुकान",
+    orders: "ऑर्डर",
+    featuredTitle: "विशेष उत्पाद",
+    featuredSub: "लखनऊ के बेहतरीन कारीगरों द्वारा हस्तनिर्मित चिकनकारी",
+    browseProducts: "उत्पाद ब्राउज़ करें",
+    dreamDesign: "अपना सपनों का डिज़ाइन बनाएं",
+    myOrders: "मेरे ऑर्डर",
+    trendingDesigns: "ट्रेंडिंग डिज़ाइन",
+    verifiedArtisans: "सत्यापित कारीगर",
+    addCart: "कार्ट में जोड़ें",
+    startCustom: "कस्टम ऑर्डर शुरू करें →",
+
+    floralKurta: "फ्लोरल कुर्ता",
+    peonyDupatta: "पियोनी दुपट्टा",
+    awadhiSaree: "अवधी साड़ी",
+    jasmineSet: "जैस्मीन सेट",
+
+    quickLinks: "त्वरित लिंक",
+    support: "सहायता",
+    connect: "संपर्क"
+  },
+
+  ur: {
+    customSubtitle: "ماہر کاریگروں کے ساتھ مل کر اپنی بہترین چکنکاری تیار کریں",
+    home: "ہوم",
+    artisan: "کاریگر",
+    shop: "دکان",
+    orders: "آرڈرز",
+    featuredTitle: "نمایاں مصنوعات",
+    featuredSub: "لکھنؤ کے بہترین کاریگروں کی ہاتھ سے بنی چکنکاری",
+    browseProducts: "مصنوعات دیکھیں",
+    dreamDesign: "اپنا خوابوں کا ڈیزائن بنائیں",
+    myOrders: "میرے آرڈرز",
+    trendingDesigns: "مقبول ڈیزائن",
+    verifiedArtisans: "تصدیق شدہ کاریگر",
+    addCart: "کارٹ میں شامل کریں",
+    startCustom: "کسٹم آرڈر شروع کریں →",
+
+    floralKurta: "پھولوں والا کرتا",
+    peonyDupatta: "پیونی دوپٹہ",
+    awadhiSaree: "اودھی ساڑی",
+    jasmineSet: "جیسمین سیٹ",
+
+    quickLinks: "فوری لنکس",
+    support: "مدد",
+    connect: "رابطہ"
+  }
+};
+
+
+
+// 🌍 Language Switch
+document.addEventListener("DOMContentLoaded", function () {
+
+  const langButtons = document.querySelectorAll("[data-lang]");
+  const langDisplay = document.querySelector(".lang-btn");
+
+  langButtons.forEach(btn => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const lang = this.dataset.lang;
+
+      // Update button text
+      langDisplay.innerText = this.innerText;
+
+      // Change all translatable elements
+      document.querySelectorAll("[data-key]").forEach(el => {
+        const key = el.dataset.key;
+
+        if (translations[lang] && translations[lang][key]) {
+          el.innerText = translations[lang][key];
+        }
+      });
+
+    });
+  });
+
+});
+
+
+
+    </script>
+</body>
+</html>
